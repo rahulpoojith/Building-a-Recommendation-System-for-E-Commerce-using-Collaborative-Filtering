@@ -17,15 +17,3 @@ with zipfile.ZipFile(zip_file, 'r') as zip_ref:
 
 print("Dataset downloaded and extracted successfully!")
 
-
-
-import pandas as pd
-
-# File path to the extracted dataset
-file_path = "dataset/walmart-product-reviews.csv"  # Replace with the actual file name
-
-# Load the dataset into a DataFrame
-data = pd.read_csv(file_path)
-
-# Display the first few rows of the dataset
-print(data.head())
