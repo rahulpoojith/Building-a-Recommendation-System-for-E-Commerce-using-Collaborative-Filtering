@@ -57,10 +57,6 @@
         .modal-content {
             border-radius: 10px;
         }
-        .modal-content.dark {
-            background-color: #333;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -76,7 +72,7 @@
                     <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#settingsLink"><i class="fas fa-cog"></i> Settings</a>
+                    <a class="nav-link" href="#settingsLink" id="settingsLink"><i class="fas fa-cog"></i> Settings</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-outline-primary mr-2" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
@@ -100,24 +96,152 @@
         </div>
     </div>
 
-
+    <!-- Main Page Button -->
     <div class="text-center mt-5">
-        <a  href="main" class="btn btn-primary btn-lg">Go To Main Page</a>
-      </div>
-      
-      {% if signup_message %}
-      <h5 style="margin-left:42%;margin-top:10px; text:bold;">{{signup_message}}</h5>
-      {% endif %}
-      
-
-    <!-- Content Section -->
-    <div class="container text-center mt-4">
-        <h1>Welcome to our Home Page</h1>
+        <a href="main" class="btn btn-primary btn-lg">Go To Main Page</a>
     </div>
+      
+    <!-- Modal for Sign Up -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Sign In -->
+    <div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signinModalLabel">Sign In</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signin" method="post">
+                        <div class="mb-3">
+                            <label for="signinUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="signinUsername" name="signinUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signinPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signinPassword" name="signinPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Settings -->
+<div class="modal fade" id="SettingsModel" tabindex="-1" aria-labelledby="SettingsModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SettingsModelLabel">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Zoom Controls -->
+                <h6>Zoom Settings</h6>
+                <div class="btn-group">
+                    <button class="btn btn-outline-primary" id="zoomInBtn">Zoom In</button>
+                    <button class="btn btn-outline-primary" id="zoomOutBtn">Zoom Out</button>
+                    <button class="btn btn-outline-secondary" id="resetZoomBtn">Reset</button>
+                </div>
+                <hr>
+                <!-- Theme Selector -->
+                <h6>Background Theme</h6>
+                <div class="btn-group">
+                    <button class="btn btn-outline-dark" id="lightThemeBtn">Light</button>
+                    <button class="btn btn-outline-dark" id="contrastThemeBtn">Contrast</button>
+                    <button class="btn btn-outline-dark" id="darkThemeBtn">Dark</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Zoom functionality
+    let zoomLevel = 1;
+    const body = document.body;
+
+    document.getElementById("zoomInBtn").addEventListener("click", () => {
+        zoomLevel += 0.1;
+        body.style.transform = `scale(${zoomLevel})`;
+        body.style.transformOrigin = "0 0";
+    });
+
+    document.getElementById("zoomOutBtn").addEventListener("click", () => {
+        zoomLevel = Math.max(zoomLevel - 0.1, 0.5); // Prevent zooming out too much
+        body.style.transform = `scale(${zoomLevel})`;
+        body.style.transformOrigin = "0 0";
+    });
+
+    document.getElementById("resetZoomBtn").addEventListener("click", () => {
+        zoomLevel = 1;
+        body.style.transform = "scale(1)";
+    });
+
+    // Theme functionality
+    document.getElementById("lightThemeBtn").addEventListener("click", () => {
+        body.style.backgroundColor = "#f8f9fa";
+        body.style.color = "#333";
+    });
+
+    document.getElementById("contrastThemeBtn").addEventListener("click", () => {
+        body.style.backgroundColor = "#000";
+        body.style.color = "#fff";
+    });
+
+    document.getElementById("darkThemeBtn").addEventListener("click", () => {
+        body.style.backgroundColor = "#343a40";
+        body.style.color = "#ddd";
+    });
+</script>
 
     <!-- Bootstrap and JS Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript to handle "Settings" link click
+        document.getElementById("settingsLink").addEventListener('click', function () {
+            $("#SettingsModel").modal('show');
+        });
+    </script>
 </body>
 </html>
