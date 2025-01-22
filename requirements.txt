@@ -5,6 +5,7 @@ seaborn
 scipy
 nltk
 flask
+flask_sqlalchemy
 
 -e .
 
